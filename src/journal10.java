@@ -15,7 +15,7 @@ public class journal10 extends javax.swing.JFrame {
      */
     public journal10() {
         initComponents();
-    }rv3333swsqSFGBRHTNB 
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -178,21 +178,28 @@ public class DETAILS extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
-
+      
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       int cid=Integer.parseInt(jTextField1.getText());
+     
+        int cid=Integer.parseInt(jTextField1.getText());
        String name=jTextField2.getText();
        String address=jTextField3.getText();
        String city=jTextField4.getText();
-       int phone=Integer.parseInt(jTextField5.getText());
+      long phone=Long.parseLong(jTextField5.getText());
          try 
     {
         Class.forName("java.sql.Driver");
     
      Connection con = DriverManager.getConnection("jdbc:mysql://localhost/abc","root","");
      Statement stmt = con.createStatement();
-     String query = "Insert into details values('"+cid+"','"+name+"','"+address+"','"+city+"','"+phone+"');";
+     String query = "update detail1 set cust_id="+cid+",name='"+name+"',address='"+address+"',city='"+city+"',phone_no="+phone+";";
      stmt.executeUpdate(query);
+     JOptionPane.showMessageDialog(null,"your data has been recorded successfully!");
+                carName a=new carName();
+                a.setVisible(true);
+                stmt.close();
+                con.close();
+
     }
       catch(Exception e)
      {

@@ -3,12 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+ import javax.swing.JOptionPane ;
 /**
  *
  * @author CLAB_10
  */
 public class ORDERform extends javax.swing.JFrame {
+ 
 
     /**
      * Creates new form ORDERform
@@ -95,11 +103,6 @@ public class ORDERform extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel12.setText("DISCOUNT % :");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -124,6 +127,11 @@ public class ORDERform extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 0, 0));
         jButton1.setText("SAVE ORDER");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(102, 0, 0));
@@ -291,7 +299,30 @@ public class ORDERform extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+ DefaultListModel model = new DefaultListModel(); //create a new list model
+  try {
+    Class.forName("java.sql.Driver");
+        
+    Connection con = DriverManager.getConnection("jdbc:mysql://localhost/abc","root","");
+    Statement stmt = con.createStatement();
+     String query = "SELECT * from dept ";
+    ResultSet resultSet = stmt.executeQuery(query); //run your query
 
+    while (resultSet.next()) //go through each row that your query returns
+    {
+        int ItemList2 = resultSet.getInt("Item"); //get the element in column "item_code"
+        model.addElement(ItemList2); //add each item to the model
+    }
+    jList1.setModel(model);
+
+    resultSet.close();
+    stmt.close();
+    con.close();
+    }                                        
+   catch(Exception e)
+   {
+       JOptionPane.showMessageDialog(null,"Error connecting");
+   }
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
@@ -315,6 +346,33 @@ public class ORDERform extends javax.swing.JFrame {
             
             
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       DefaultListModel model = new DefaultListModel(); //create a new list model
+try
+{    Class.forName("java.sql.Driver");
+
+    Connection con = DriverManager.getConnection("jdbc:mysql://localhost/abc","root","");
+    Statement stmt = con.createStatement();
+     String query = "SELECT * from dept ";
+    ResultSet resultSet = stmt.executeQuery(query); //run your query
+
+    while (resultSet.next()) //go through each row that your query returns
+    {
+        int ItemList2 = resultSet.getInt("Item"); //get the element in column "item_code"
+        model.addElement(ItemList2); //add each item to the model
+    }
+    jList1.setModel(model);
+
+    resultSet.close();
+    stmt.close();
+    con.close();
+    }                                        
+   catch(Exception e)
+   {
+       JOptionPane.showMessageDialog(null,"Error connecting");
+   }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

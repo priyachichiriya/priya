@@ -140,6 +140,8 @@ public class sign_in extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null,"you have successfully signed up");
                DETAILS s=new DETAILS();
                s.setVisible(true);
+               this.setVisible(false);
+               
            }
            else
            {
