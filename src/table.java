@@ -11,6 +11,8 @@
  */
 public class table extends javax.swing.JFrame {
 
+    private String query;
+
     /**
      * Creates new form table
      */
@@ -34,15 +36,13 @@ public class table extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        b2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "CUSTOMER ID", "NAME", "ADDRESS", "CITY", "PHONE NO."
@@ -50,7 +50,9 @@ public class table extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        jButton1.setText("OK");
+        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(102, 0, 102));
+        jButton1.setText("SHOW ORDER SUMMARY");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -59,10 +61,7 @@ public class table extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ORDER NO.", "ORDER DATE", "QUANTITY", "PRICE", "DISCOUNTED AMOUNT", "FINAL AMOUNT"
@@ -73,16 +72,22 @@ public class table extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "CAR ID", "CAR NAME", "DESCRIPTION", "PRICE"
             }
         ));
         jScrollPane3.setViewportView(jTable2);
+
+        b2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        b2.setForeground(new java.awt.Color(102, 0, 102));
+        b2.setText("OK");
+        b2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,31 +96,32 @@ public class table extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(270, 270, 270)
-                        .addComponent(jButton1))
+                        .addGap(163, 163, 163)
+                        .addComponent(jButton1)
+                        .addGap(113, 113, 113)
+                        .addComponent(b2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
+                        .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(717, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3)))))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(b2))
                 .addGap(20, 20, 20))
         );
 
@@ -123,23 +129,59 @@ public class table extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      
         DefaultTableModel model=(DefaultTableModel)table.getModel();
+        try{
+          
+        Class.forName("java.sql.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/abc","root","");
+        Statement stmt=con.createStatement();
+        
+        
+            
+            String query = "SELECT cust_id, name ,address,city ,phone_no from detail1;";
+        ResultSet rs =stmt.executeQuery(query);
+       
+            while(rs.next()){
+            int cid = rs.getInt("cust_id");
+            String name= rs.getString("name");
+            String add= rs.getString("address");
+            String city= rs.getString("city");
+            long phone= rs.getLong("phone_no");
+            model.addRow(new Object[]{cid,name,add,city,phone});
+            table.setModel(model);
+            }
+        
+           
+        
+        rs.close();
+        stmt.close();
+        con.close();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,e);
+            System.out.println(e);
+        }
+        
+        
+        DefaultTableModel model1=(DefaultTableModel)jTable2.getModel();
         try{
           
                 Class.forName("java.sql.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/abc","root","");
         Statement stmt=con.createStatement();
-        String query = "SELECT * FROM details;";
+        String query = "SELECT * FROM carentry;";
         ResultSet rs =stmt.executeQuery(query);
         while(rs.next())
         {
             
-            String name= rs.getString("NAME");
-            int cid = rs.getInt("CUSTOMER_ID");
-            String add= rs.getString("ADDRESS");
-            String city= rs.getString("CITY");
-            double phone= rs.getDouble("PHONE_NO");
-            model.addRow(new Object[]{cid,name,add,city,phone});
+           
+            int carid = rs.getInt("car_id");
+            String name1= rs.getString("car_name");
+            String desc= rs.getString("description");
+            double price= rs.getDouble("price");
+            model1.addRow(new Object[]{carid,name1,desc,price});
             
         }
         rs.close();
@@ -150,7 +192,16 @@ public class table extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null,"Error in connectivity");
         }
+        
+        
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void b2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b2ActionPerformed
+        JOptionPane.showMessageDialog(null,"order confirmed");
+    }//GEN-LAST:event_b2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +239,7 @@ public class table extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b2;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
